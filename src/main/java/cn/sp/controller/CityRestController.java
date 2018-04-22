@@ -87,4 +87,9 @@ public class CityRestController {
     public List<City> findByDescriptionLike(@RequestParam(value = "description") String description) {
         return cityService.findByDescriptionLike(description);
     }
+
+    @RequestMapping(value = "/api/city/search", method = RequestMethod.GET)
+    public List<City> searchCity(Integer pageNumber,Integer pageSize,String searchContent){
+            return cityService.searchCity(pageNumber,pageSize,searchContent);
+    }
 }
