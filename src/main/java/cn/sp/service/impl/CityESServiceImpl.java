@@ -5,7 +5,6 @@ import cn.sp.repository.CityRepository;
 import cn.sp.service.CityService;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
-import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
@@ -90,6 +88,22 @@ public class CityESServiceImpl implements CityService {
         log.info("\n searchCity: searchContent ["+searchContent+"] \n DSL = \n "+searchQuery.getQuery().toString());
         Page<City> page = cityRepository.search(searchQuery);
         return page.getContent();
+    }
+
+    @Override
+    public List<City> findByIdIn(List<Long> ids) {
+        return cityRepository.findByIdIn(ids);
+    }
+
+    @Override
+    public boolean deleteById(Long id) {
+        cityRepository.delete(id);
+        return true;
+    }
+
+    @Override
+    public List<City> searchByDescriptionAndScore(String description, int score) {
+        return cityRepository.searchByDescriptionAndScore(description,score);
     }
 
     /**

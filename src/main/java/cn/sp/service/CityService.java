@@ -61,4 +61,10 @@ public interface CityService {
 
     List<City> searchCity(Integer pageNumber,Integer pageSize,String searchContent);
 
+    List<City> findByIdIn(List<Long> ids);
+
+    boolean deleteById(Long id);
+
+    List<City> searchByDescriptionAndScore(String description,int score);
+
 }

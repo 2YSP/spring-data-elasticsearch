@@ -92,4 +92,25 @@ public class CityRestController {
     public List<City> searchCity(Integer pageNumber,Integer pageSize,String searchContent){
             return cityService.searchCity(pageNumber,pageSize,searchContent);
     }
+
+    @PostMapping("/api/city/ids")
+    public List<City> findByIds(@RequestBody List<Long> ids){
+        return cityService.findByIdIn(ids);
+    }
+
+    @DeleteMapping("/api/city/{id}")
+    public Boolean deleteCity(@PathVariable("id") Long id){
+        return cityService.deleteById(id);
+    }
+
+    /**
+     * 查询包含描述并且分值大于score的城市列表
+     * @param description
+     * @param score
+     * @return
+     */
+    @GetMapping("/api/city")
+    public List<City> searchByDescriptionAndScore(@RequestParam(value = "description")String description, @RequestParam(value = "score")int score) {
+        return cityService.searchByDescriptionAndScore(description,score);
+    }
 }

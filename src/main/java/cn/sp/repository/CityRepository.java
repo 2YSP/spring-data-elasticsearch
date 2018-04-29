@@ -3,6 +3,7 @@ package cn.sp.repository;
 import cn.sp.domain.City;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 import java.util.List;
@@ -51,4 +52,20 @@ public interface CityRepository extends ElasticsearchRepository<City,Long> {
      * @return
      */
     Page<City> findByDescriptionLike(String description, Pageable page);
+
+    /**
+     * 根据范围id查询
+     * @param ids
+     * @return
+     */
+    List<City> findByIdIn(List<Long> ids);
+
+    /**
+     * 根据自定义DSL语句查询
+     * @param description
+     * @param score
+     * @return
+     */
+    @Query("{\"query\":{\"bool\":{\"must\":{\"match\":{\"description\":\"?0\"}},\"filter\":{\"range\":{\"score\":{\"gt\":?1}}}}}}")
+    List<City> searchByDescriptionAndScore(String description,int score);
 }
